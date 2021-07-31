@@ -41,31 +41,28 @@ class Calculator:
 
 
 class CashCalculator(Calculator):
-    USD_RATE = 73.25
-    EURO_RATE = 86.96
-
-    RATES = {
-        'usd': ('USD_RATE', 'USD'),
-        'eur': ('EURO_RATE', 'Euro')
-    }
+    USD_RATE = 73.16
+    EURO_RATE = 86.86
 
     def get_today_cash_remained(self, currency: str) -> str:
-        if currency == 'rub':
-            cash_remained = round(super().get_today_remained(), 2)
-            value = 'руб'
-        else:
-            divider = getattr(
-                CashCalculator, CashCalculator.RATES.get(currency)[0])
-            cash_remained = round(
-                super().get_today_remained() / divider, 2)
-            value = CashCalculator.RATES.get(currency)[1]
+
+        money_rates: dict = {
+            'rub': (1, 'руб'),
+            'usd': (self.USD_RATE, 'USD'),
+            'eur': (self.EURO_RATE, 'Euro')
+        }
+
+        rate, cur_name = money_rates[currency]
+        if currency not in money_rates:
+            return 'Неизвестная валюта'
+        cash_remained = round(super().get_today_remained() / rate, 2)
         if cash_remained > 0:
-            return f'На сегодня осталось {cash_remained} {value}'
+            return f'На сегодня осталось {cash_remained} {cur_name}'
         elif cash_remained == 0:
             return 'Денег нет, держись'
         else:
             debt = abs(cash_remained)
-            return f'Денег нет, держись: твой долг - {debt} {value}'
+            return f'Денег нет, держись: твой долг - {debt} {cur_name}'
 
 
 class CaloriesCalculator(Calculator):
