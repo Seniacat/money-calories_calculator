@@ -52,17 +52,16 @@ class CashCalculator(Calculator):
             'eur': (self.EURO_RATE, 'Euro')
         }
 
-        rate, cur_name = money_rates[currency]
         if currency not in money_rates:
             return 'Неизвестная валюта'
+        rate, cur_name = money_rates[currency]
         cash_remained = round(super().get_today_remained() / rate, 2)
         if cash_remained > 0:
             return f'На сегодня осталось {cash_remained} {cur_name}'
         elif cash_remained == 0:
             return 'Денег нет, держись'
-        else:
-            debt = abs(cash_remained)
-            return f'Денег нет, держись: твой долг - {debt} {cur_name}'
+        debt = abs(cash_remained)
+        return f'Денег нет, держись: твой долг - {debt} {cur_name}'
 
 
 class CaloriesCalculator(Calculator):
