@@ -1,2 +1,2 @@
-# hw_python_oop
+# Money&Calories_Calculator
 Sprint 2. Итоговый проект.
